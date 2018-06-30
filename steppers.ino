@@ -13,12 +13,14 @@ int stepperPin ;
 
 int dirPin1 = 8;
 int stepperPin1 = 9;
+
 int dirPin2 = 10;
 int stepperPin2 = 13 ; //11;
 
 //driver dos
 int dirPin3 = 4;
 int stepperPin3 = 5;
+
 int dirPin4 = 6;
 int stepperPin4 = 7;
 //azul,amarillo,rojo,verde
@@ -57,7 +59,7 @@ Morse::Morse(int pin){
 void Morse::stepperEvent(int stepper, int _speed, int steps, int dir){
     getStepper(stepper) ;
     Stepper myStepper(stepsPerRev, dirPin, stepperPin) ;
-
+Serial.print("dirPin = ") ; Serial.print(dirPin) ; Serial.print(" stepperPin = ") ; Serial.println(stepperPin) ;
     myStepper.setSpeed(_speed) ;
     for(int i=0; i<steps; i++)
         myStepper.step(dir) ;
@@ -67,9 +69,11 @@ void Morse::stepperEvent(int stepper, int _speed, int steps, int dir){
 void Morse::stepperEvent(int stepperI, int _speedI, int stepsI, int dirI, int stepperII, int _speedII, int stepsII, int dirII){
     getStepper(stepperI) ;
     Stepper myStepperI(stepsPerRev, dirPin, stepperPin) ;
+Serial.print("dirPin = ") ; Serial.print(dirPin) ; Serial.print("  dirPin = ") ; Serial.println(stepperPin) ;    
     getStepper(stepperII) ;
     Stepper myStepperII(stepsPerRev, dirPin, stepperPin) ;
-    
+Serial.print("dirPin = ") ; Serial.print(dirPin) ; Serial.print("  dirPin = ") ; Serial.println(stepperPin) ;    
+
     myStepperI.setSpeed(_speedI) ;
     myStepperII.setSpeed(_speedII) ;    
     for(int i=0; i<stepsI; i++){
@@ -101,40 +105,22 @@ Morse blynkMorse(13) ;
 
 
 void setup() {
-
+Serial.begin(9600) ;
 }
 
 void loop(){
+
 //1. Se activa Motor 3 para hacer las uñas para adelante para meterse debajo de la tarima
   blynkMorse.stepperEvent(3, 3000, 34000, -1) ;
+
 //2. Se activa Motores 1 y 2 para levantar la tarima por unos breves segundos 
   blynkMorse.stepperEvent(1, 800, 8000, 1, 2, 400, 8000, 1) ; // validacion con num de iter
+
 
   delay(1000) ;
 }
 
 
-
-
-// blynkMorse.stepperEvent(["stepper3", 3000, 34000, -1]) ;
-/*void Morse::stepperEvent(array  ){ //int _speed, int steps, int dir, int dirPin, int stepperPin){   
-    Stepper myStepperParam(stepsPerRev, dirPin, stepperPin) ;
-
-    myStepperParam.setSpeed(_speed) ;
-    for(int i=0; i<steps; i++)
-        myStepperParam.step(dir) ;
-
-    delay(2000) ;
-}
-*/
-
-
-/*Stepper myStepperParam(stepsPerRev,dirPin2,stepperPin2);
-Stepper myStepper1(stepsPerRev,dirPin,stepperPin) ;
-Stepper myStepper2(stepsPerRev,dirPin2,stepperPin2) ;
-Stepper myStepper3(stepsPerRev,dirPin3,stepperPin3) ;
-Stepper myStepper4(stepsPerRev,dirPin4,stepperPin4) ;
-*/
 /*
 if (var==0) {
 //1. Se activa Motor 3 para hacer las uñas para adelante para meterse debajo de la tarima     
