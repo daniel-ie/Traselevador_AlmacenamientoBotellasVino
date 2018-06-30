@@ -6,6 +6,7 @@
 const int stepsPerRev = 300;
 int var=0 ;
 
+//enum _Stepper = {stepper1, stepper2, stepper3} ;
 
 int dirPin ;
 int stepperPin ;
@@ -37,9 +38,9 @@ public:
     Morse(int pin) ;
 
     // Metodos
-    int getStepper(int stepper) ;
-    void stepperEvent(int stepper, int _speed, int steps, int dir) ; //, int dirPin, int stepperPin) ;
-    void stepperEvent(int stepper, int _speed, int steps, int dir, int stepper2, int _speed2, int steps2, int dir2) ;
+    int getStepper(char stepper) ;
+    void stepperEvent(char stepper, int _speed, int steps, int dir) ; //, int dirPin, int stepperPin) ;
+    void stepperEvent(char stepperI, int _speedI, int stepsI, int dirI, char stepperII, int _speedII, int stepsII, int dirII) ;
     //void stepperEvent(int params[], int params[]) ;
 
 private:
@@ -56,7 +57,7 @@ Morse::Morse(int pin){
 
 /// Metodos
 
-void Morse::stepperEvent(int stepper, int _speed, int steps, int dir){
+void Morse::stepperEvent(char stepper, int _speed, int steps, int dir){
     getStepper(stepper) ;
     Stepper myStepper(stepsPerRev, dirPin, stepperPin) ;
 Serial.print("dirPin = ") ; Serial.print(dirPin) ; Serial.print(" stepperPin = ") ; Serial.println(stepperPin) ;
@@ -66,7 +67,7 @@ Serial.print("dirPin = ") ; Serial.print(dirPin) ; Serial.print(" stepperPin = "
 
     delay(2000) ;
 }
-void Morse::stepperEvent(int stepperI, int _speedI, int stepsI, int dirI, int stepperII, int _speedII, int stepsII, int dirII){
+void Morse::stepperEvent(char stepperI, int _speedI, int stepsI, int dirI, char stepperII, int _speedII, int stepsII, int dirII){
     getStepper(stepperI) ;
     Stepper myStepperI(stepsPerRev, dirPin, stepperPin) ;
 Serial.print("dirPin = ") ; Serial.print(dirPin) ; Serial.print("  dirPin = ") ; Serial.println(stepperPin) ;    
@@ -82,17 +83,17 @@ Serial.print("dirPin = ") ; Serial.print(dirPin) ; Serial.print("  dirPin = ") ;
     }
     delay(2000) ;
 }
-int Morse::getStepper(int stepper){
+int Morse::getStepper(char stepper){
   switch(stepper){
-    case 1:
+    case '1':
       dirPin = dirPin1 ;
       stepperPin = stepperPin1 ;
       break ;
-    case 2:
+    case '2':
       dirPin = dirPin2 ;
       stepperPin = stepperPin2 ;
       break ;
-    case 3:
+    case '3':
       dirPin = dirPin3 ;
       stepperPin = stepperPin3 ;    
       break ;
@@ -111,10 +112,10 @@ Serial.begin(9600) ;
 void loop(){
 
 //1. Se activa Motor 3 para hacer las uñas para adelante para meterse debajo de la tarima
-  blynkMorse.stepperEvent(3, 3000, 34000, -1) ;
+  blynkMorse.stepperEvent('3', 3000, 34000, -1) ;
 
 //2. Se activa Motores 1 y 2 para levantar la tarima por unos breves segundos 
-  blynkMorse.stepperEvent(1, 800, 8000, 1, 2, 400, 8000, 1) ; // validacion con num de iter
+  blynkMorse.stepperEvent('1', 800, 8000, 1, '2', 400, 8000, 1) ; // validacion con num de iter
 
 
   delay(1000) ;
